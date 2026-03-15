@@ -1,0 +1,211 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  perspective: 1000px; /* Required for 3D folder effect */
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.02);
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid #f1f5f9;
+  transform-style: preserve-3d;
+}
+
+.login-card.entrance {
+  animation: slideInRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.login-card.rotating {
+  animation: rotateCard 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes rotateCard {
+  0% {
+    transform: rotateY(0deg) scale(1);
+  }
+  50% {
+    transform: rotateY(-180deg) scale(0.9);
+  }
+  100% {
+    transform: rotateY(-360deg) scale(1);
+  }
+}
+
+.login-logo-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  width: 100%;
+  animation: slowLogoFade 1.2s ease-out forwards;
+}
+
+.login-logo-preview img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #f97316;
+  margin-bottom: 1rem;
+}
+
+@keyframes slowLogoFade {
+  from { transform: scale(0.85); opacity: 0; filter: blur(5px); }
+  to { transform: scale(1); opacity: 1; filter: blur(0); }
+}
+
+.form-content-fade {
+  opacity: 0;
+  animation: fadeInForm 0.5s ease-out forwards;
+}
+
+@keyframes fadeInForm {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h2 {
+  color: #f97316; /* Vibrant appetizing orange */
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.login-header p {
+  color: #ea580c; /* Slightly darker orange for subtext */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #334155;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  font-size: 1rem;
+  color: #0f172a;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #f97316;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+  accent-color: #f97316;
+  width: 1rem;
+  height: 1rem;
+}
+
+.forgot-password {
+  color: #f97316;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-btn {
+  background-color: #f97316;
+  color: #ffffff;
+  padding: 0.875rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 0.5rem;
+}
+
+.login-btn:hover {
+  background-color: #ea580c;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.signup-prompt {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.signup-prompt a {
+  color: #f97316;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup-prompt a:hover {
+  text-decoration: underline;
+}

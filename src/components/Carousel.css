@@ -1,0 +1,53 @@
+.carousel-container {
+  flex: 1 1 1000px; /* Allow it to grow wider */
+  height: 450px; /* Shorter height, less than login card */
+  min-width: 400px; 
+  max-width: 1000px; /* Slightly reduced width for better spacing */
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .carousel-container {
+    display: none; /* Only hide on very small screens */
+  }
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+/* Add slight panning animation based on direction */
+.carousel-container.left .carousel-slide {
+  transform: scale(1.05) translateX(-20px);
+}
+.carousel-container.left .carousel-slide.active {
+  transform: scale(1) translateX(0);
+}
+
+.carousel-container.right .carousel-slide {
+  transform: scale(1.05) translateX(20px);
+}
+.carousel-container.right .carousel-slide.active {
+  transform: scale(1) translateX(0);
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
