@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 3500); // Increased to 3.5s to match slower rotation (2.5s) + text fade
+    }, 4500); // Increased to 4.5s to accommodate rotation (2.5s) + divider (0.8s) + tagline (0.6s)
 
     return () => clearTimeout(timer);
   }, []);

@@ -94,7 +94,26 @@
   font-size: 2.5rem;
   font-weight: 800;
   opacity: 0;
+  margin-bottom: 0.5rem;
   animation: fadeInText 0.5s ease-out 2s forwards;
+}
+
+.splash-divider {
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #f97316, transparent);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+  animation: expandLine 0.8s ease-in-out 2.5s forwards;
+}
+
+.splash-tagline {
+  color: #ea580c;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  opacity: 0;
+  margin-top: 0.75rem;
+  animation: fadeInTagline 0.6s ease-out 3s forwards;
 }
 
 @keyframes rotateBack {
@@ -104,6 +123,16 @@
 
 @keyframes fadeInText {
   from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes expandLine {
+  from { width: 0; }
+  to { width: 200px; }
+}
+
+@keyframes fadeInTagline {
+  from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
