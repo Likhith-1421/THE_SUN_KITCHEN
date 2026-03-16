@@ -3,8 +3,12 @@ import logoImg from '../assets/sunset-kitchen-logo.jpg';
 import './Login.css';
 
 export default function Login() {
+  const [isSignup, setIsSignup] = useState(false);
+  const [isToggling, setIsToggling] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [animationPhase, setAnimationPhase] = useState('logo'); // phases: logo, rotating, ready
 
   useEffect(() => {
@@ -27,12 +31,33 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password });
+    if (isSignup) {
+      console.log('Signup attempt:', { firstName, lastName, email, password });
+    } else {
+      console.log('Login attempt:', { email, password });
+    }
+  };
+
+  const toggleMode = (e) => {
+    e.preventDefault();
+    if (isToggling) return;
+
+    setIsToggling(true);
+    
+    // Switch state halfway through rotation (400ms into 800ms animation)
+    setTimeout(() => {
+      setIsSignup(!isSignup);
+    }, 400);
+
+    // End toggle state after animation completes
+    setTimeout(() => {
+      setIsToggling(false);
+    }, 800);
   };
 
   return (
     <div className="login-container">
-      <div className={`login-card ${animationPhase === 'logo' ? 'entrance' : ''} ${animationPhase === 'rotating' ? 'rotating' : ''}`}>
+      <div className={`login-card ${isSignup ? 'signup-mode' : ''} ${isToggling ? 'toggling' : ''} ${animationPhase === 'logo' ? 'entrance' : ''} ${animationPhase === 'rotating' ? 'rotating' : ''}`}>
         {/* Stage 1 & 2: Show Logo (including during rotation) */}
         {(animationPhase === 'logo' || animationPhase === 'rotating') && (
           <div className="login-logo-preview">
@@ -45,11 +70,38 @@ export default function Login() {
         {animationPhase === 'ready' && (
           <div className="form-content-fade">
             <div className="login-header">
-              <h2>The Sunset Kitchen</h2>
-              <p>Flavors That Shine</p>
+              <h2>{isSignup ? 'Create Account' : 'The Sunset Kitchen'}</h2>
+              <p>{isSignup ? 'Join our community' : 'Flavors That Shine'}</p>
             </div>
             
             <form onSubmit={handleSubmit} className="login-form">
+              {isSignup && (
+                <div className="name-row">
+                  <div className="form-group">
+                    <label htmlFor="firstName">First Name</label>
+                    <input 
+                      type="text" 
+                      id="firstName" 
+                      placeholder="First Name" 
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="lastName">Last Name</label>
+                    <input 
+                      type="text" 
+                      id="lastName" 
+                      placeholder="Last Name" 
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input 
@@ -74,19 +126,28 @@ export default function Login() {
                 />
               </div>
 
-              <div className="form-options">
-                <label className="remember-me">
-                  <input type="checkbox" />
-                  <span>Remember me</span>
-                </label>
-                <a href="#" className="forgot-password">Forgot password?</a>
-              </div>
+              {!isSignup && (
+                <div className="form-options">
+                  <label className="remember-me">
+                    <input type="checkbox" />
+                    <span>Remember me</span>
+                  </label>
+                  <a href="#" className="forgot-password">Forgot password?</a>
+                </div>
+              )}
               
-              <button type="submit" className="login-btn">Sign In</button>
+              <button type="submit" className="login-btn">
+                {isSignup ? 'Sign Up' : 'Sign In'}
+              </button>
             </form>
 
             <div className="signup-prompt">
-              <p>Don't have an account? <a href="#">Sign up for free</a></p>
+              <p>
+                {isSignup ? 'Already have an account?' : "Don't have an account?"} 
+                <a href="#" onClick={toggleMode}>
+                  {isSignup ? 'Sign in' : 'Sign up for free'}
+                </a>
+              </p>
             </div>
           </div>
         )}
