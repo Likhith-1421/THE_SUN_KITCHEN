@@ -21,16 +21,16 @@
 }
 
 .login-card.signup-mode {
-  max-width: 500px; /* Increased further to prevent any side-by-side overflow */
-  padding: 1.5rem 2rem; /* Reduced vertical padding */
+  max-width: 420px; /* Reduced from 500px */
+  padding: 1.25rem 1.75rem; /* Further reduced vertical and horizontal padding */
 }
 
 .signup-mode .login-header {
-  margin-bottom: 1.25rem; /* Reduced from 2rem */
+  margin-bottom: 1rem; /* Reduced from 1.25rem */
 }
 
 .signup-mode .login-form {
-  gap: 1rem; /* Reduced from 1.25rem */
+  gap: 0.75rem; /* Reduced from 1rem */
 }
 
 .signup-mode .signup-prompt {
@@ -140,8 +140,8 @@
 
 .name-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Prevents columns from expanding beyond container */
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem; /* Reduced from 1.25rem */
 }
 
 .form-group {
@@ -158,12 +158,12 @@
 
 .form-group input {
   width: 100%;
-  box-sizing: border-box; /* Crucial: padding won't increase width */
-  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  padding: 0.625rem 0.875rem; /* Reduced from 0.75rem 1rem */
   border-radius: 8px;
   border: 1px solid #cbd5e1;
   background-color: #f8fafc;
-  font-size: 1rem;
+  font-size: 0.95rem; /* Reduced from 1rem */
   color: #0f172a;
   transition: all 0.2s ease;
   font-family: inherit;

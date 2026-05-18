@@ -6,9 +6,9 @@ export default function Header() {
       <Logo />
       <nav>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Menu</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="/home">Home</a></li>
+          <li><a href="/menu">Menu</a></li>
+          <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
     </header>
