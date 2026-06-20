@@ -91,11 +91,7 @@
   animation: slowLogoFade 1.2s ease-out forwards;
 }
 
-.login-logo-preview img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 3px solid #f97316;
+.login-logo-preview .app-logo--login {
   margin-bottom: 1rem;
 }
 

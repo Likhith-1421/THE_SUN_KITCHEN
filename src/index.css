@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 * {
   margin: 0;
   padding: 0;
@@ -6,8 +8,8 @@
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #f8fafc; /* Clean, light background */
-  color: #334155; /* Dark text for readability */
+  background-color: #f8fafc;
+  color: #334155;
   min-height: 100vh;
 }
 

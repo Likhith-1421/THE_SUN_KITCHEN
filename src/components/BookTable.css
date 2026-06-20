@@ -1,0 +1,144 @@
+.book-table-page {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.book-table-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+.book-table-title {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #f97316;
+  margin: 0;
+}
+
+.book-table-subtitle {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0.35rem 0 0;
+}
+
+.book-table-form {
+  margin-top: 1.5rem;
+}
+
+.book-table-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+}
+
+.book-table-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.book-table-field label {
+  font-weight: 500;
+  color: #334155;
+  font-size: 0.875rem;
+}
+
+.book-table-input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #334155;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-table-input:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.book-table-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.book-table-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.book-table-checkbox input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #f97316;
+}
+
+.book-table-error {
+  color: #ef4444;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
+.book-table-success {
+  color: #16a34a;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
+.book-table-submit {
+  background-color: #f97316;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+}
+
+.book-table-submit:hover:not(:disabled) {
+  background-color: #ea580c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.45);
+}
+
+.book-table-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .book-table-card {
+    padding: 1.25rem;
+  }
+
+  .book-table-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .book-table-title {
+    font-size: 1.5rem;
+  }
+}

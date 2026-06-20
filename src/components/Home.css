@@ -55,6 +55,8 @@
 }
 
 .book-now-btn {
+  display: inline-block;
+  text-decoration: none;
   background-color: #f97316;
   color: white;
   border: none;

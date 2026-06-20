@@ -1,10 +1,11 @@
-import logoImg from '../assets/sunset-kitchen-logo.jpg';
+import SunsetKitchenLogo from './SunsetKitchenLogo';
+import './Logo.css';
 
 const SplashScreen = () => {
   return (
     <div className="splash-screen">
       <div className="splash-logo-container">
-        <img src={logoImg} alt="Logo" className="splash-logo" />
+        <SunsetKitchenLogo size={150} className="app-logo app-logo--splash" showTagline />
         <h1 className="splash-text">The Sunset Kitchen</h1>
         <div className="splash-divider"></div>
         <p className="splash-tagline">Flavors That Shine</p>

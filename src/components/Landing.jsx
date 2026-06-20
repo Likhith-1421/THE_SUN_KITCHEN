@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from './Login';
 import Carousel from './Carousel';
-import carouselImg1 from '../assets/carousel-1.jpg';
+import { carouselImg1 } from '../assets/images';
 
 const Landing = () => {
   const restaurantImages = [

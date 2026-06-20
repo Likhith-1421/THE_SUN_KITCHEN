@@ -1,11 +1,26 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import logoImg from '../assets/sunset-kitchen-logo.jpg';
+import { useLocation, useNavigate } from 'react-router-dom';
+import SunsetKitchenLogo from './SunsetKitchenLogo';
+import './Logo.css';
 import './Login.css';
-import axios from "axios"
+import api from '../api/axios';
+import { useAuth } from '../context/AuthContext';
+
+const LOGIN_INTRO_SEEN_KEY = 'foodapp-login-intro-seen';
+
+function hasSeenLoginIntro() {
+  try {
+    return sessionStorage.getItem(LOGIN_INTRO_SEEN_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+  const introAlreadySeen = hasSeenLoginIntro();
   const [isSignup, setIsSignup] = useState(false);
   const [isToggling, setIsToggling] = useState(false);
   const [email, setEmail] = useState('');
@@ -14,67 +29,79 @@ export default function Login() {
   const [lastName, setLastName] = useState('');
   const [mobile, setMobile] = useState('');
   const [conformPassword, setConformPassword] = useState('');
-  const [animationPhase, setAnimationPhase] = useState('logo'); // phases: logo, rotating, ready
+  const [animationPhase, setAnimationPhase] = useState(introAlreadySeen ? 'ready' : 'logo');
   const [error, setError] = useState('');
-
-  const handleLogin = async(e) =>
-  {
-     e.preventDefault();
-    try{
-      if(isSignup)
-      {
-         if (password !== conformPassword) {
-           setError("Passwords do not match!");
-           return;
-         }
-         setError("");
-         const response = await axios.post("http://localhost:5555/Register",{
-          firstName,
-          lastName,
-          email,
-          mobile,
-          password,
-          conformPassword
-        })
-        console.log(response.data)
-        navigate('/home'); // Redirect after signup
-      }
-      else {
-        const response = await axios.post("http://localhost:5555/Login",{
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      if (isSignup) {
+        if (password !== conformPassword) {
+          setError("Passwords do not match!");
+          return;
+        }
+        setError("");
+        const response = await api.post("/api/Signup", {
           email,
           password,
-          conformPassword
-        })
-        console.log(response.data)
-        navigate('/home'); // Redirect after login
+        });
+        console.log(response.data);
+        setIsSignup(false);
+        setError("Account created. Please sign in.");
+      } else {
+        const response = await api.post("/api/Login", {
+          email,
+          password
+        });
+        console.log(response.data);
+        login(response.data.token);
+        const redirectTo = location.state?.from?.pathname || '/home';
+        navigate(redirectTo, { replace: true });
       }
-     }
-    catch(err)
-    {
-        console.log(err)
-        // For demonstration purposes, if the backend is not running, 
-        // we'll still allow navigation so the user can see the home page.
-        // In a real app, you'd handle this error properly.
-        navigate('/home'); 
+    } catch (err) {
+      console.error(err);
+      if (err.response && err.response.data) {
+        // Handle different backend error structures
+        const data = err.response.data;
+        if (data.message) {
+          setError(data.message);
+        } else if (data.error) {
+          setError(data.error);
+        } else if (typeof data === 'string') {
+          setError(data);
+        } else {
+          setError("Something went wrong. Please try again.");
+        }
+      } else if (err.message) {
+        // Handle network errors like CORS or server being down
+        setError(err.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     }
-  }
+  };
+
 
   useEffect(() => {
-    // Stage 1: Slide in from right while logo fades in
+    if (introAlreadySeen) return;
+
     const logoTimer = setTimeout(() => {
       setAnimationPhase('rotating');
     }, 1800);
 
-    // Stage 2: Rotate the card once
     const rotationTimer = setTimeout(() => {
       setAnimationPhase('ready');
+      try {
+        sessionStorage.setItem(LOGIN_INTRO_SEEN_KEY, 'true');
+      } catch {
+        // ignore storage errors
+      }
     }, 2600);
 
     return () => {
       clearTimeout(logoTimer);
       clearTimeout(rotationTimer);
     };
-  }, []);
+  }, [introAlreadySeen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,7 +113,7 @@ export default function Login() {
     if (isToggling) return;
 
     setIsToggling(true);
-    
+
     // Switch state halfway through rotation (400ms into 800ms animation)
     setTimeout(() => {
       setIsSignup(!isSignup);
@@ -104,7 +131,7 @@ export default function Login() {
         {/* Stage 1 & 2: Show Logo (including during rotation) */}
         {(animationPhase === 'logo' || animationPhase === 'rotating') && (
           <div className="login-logo-preview">
-            <img src={logoImg} alt="Logo" />
+            <SunsetKitchenLogo size={80} className="app-logo app-logo--login" showTagline />
             <p style={{ color: '#f97316', fontWeight: 600 }}>The Sunset Kitchen</p>
           </div>
         )}
@@ -116,16 +143,16 @@ export default function Login() {
               <h2>{isSignup ? 'Create Account' : 'The Sunset Kitchen'}</h2>
               <p>{isSignup ? 'Join our community' : 'Flavors That Shine'}</p>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="login-form">
               {isSignup && (
                 <div className="name-row">
                   <div className="form-group">
                     <label htmlFor="firstName">First Name</label>
-                    <input 
-                      type="text" 
-                      id="firstName" 
-                      placeholder="First Name" 
+                    <input
+                      type="text"
+                      id="firstName"
+                      placeholder="First Name"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       required
@@ -133,10 +160,10 @@ export default function Login() {
                   </div>
                   <div className="form-group">
                     <label htmlFor="lastName">Last Name</label>
-                    <input 
-                      type="text" 
-                      id="lastName" 
-                      placeholder="Last Name" 
+                    <input
+                      type="text"
+                      id="lastName"
+                      placeholder="Last Name"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       required
@@ -147,10 +174,10 @@ export default function Login() {
 
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  placeholder="Enter your email" 
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -160,23 +187,23 @@ export default function Login() {
               {isSignup && (
                 <div className="form-group">
                   <label htmlFor="mobile">Mobile Number</label>
-                  <input 
-                    type="tel" 
-                    id="mobile" 
-                    placeholder="Enter your mobile number" 
+                  <input
+                    type="tel"
+                    id="mobile"
+                    placeholder="Enter your mobile number"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                     required
                   />
                 </div>
               )}
-              
+
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input 
-                  type="password" 
-                  id="password" 
-                  placeholder="••••••••" 
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -189,10 +216,10 @@ export default function Login() {
               {isSignup && (
                 <div className="form-group">
                   <label htmlFor="confirmPassword">Conform Password</label>
-                  <input 
-                    type="password" 
-                    id="confirmPassword" 
-                    placeholder="••••••••" 
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="••••••••"
                     value={conformPassword}
                     onChange={(e) => {
                       setConformPassword(e.target.value);
@@ -214,15 +241,15 @@ export default function Login() {
                   <a href="#" className="forgot-password">Forgot password?</a>
                 </div>
               )}
-              
-              <button type="submit" className="login-btn" onClick={handleLogin}>
+
+              <button type="submit" className="login-btn">
                 {isSignup ? 'Sign Up' : 'Sign In'}
               </button>
             </form>
 
             <div className="signup-prompt">
               <p>
-                {isSignup ? 'Already have an account?' : "Don't have an account?"} 
+                {isSignup ? 'Already have an account?' : "Don't have an account?"}
                 <a href="#" onClick={toggleMode}>
                   {isSignup ? 'Sign in' : 'Sign up for free'}
                 </a>

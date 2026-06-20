@@ -1,5 +1,6 @@
 import React from 'react';
-import restaurantHero from '../assets/restaurant-hero.png';
+import { Link } from 'react-router-dom';
+import { restaurantHero } from '../assets/images';
 import './Home.css';
 
 const Home = () => {
@@ -10,7 +11,7 @@ const Home = () => {
         <div className="hero-overlay">
           <h1>Welcome to The Sunset Kitchen</h1>
           <p>Experience the finest dining in a modern atmosphere.</p>
-          <button className="book-now-btn">Book a Table</button>
+          <Link to="/book-table" className="book-now-btn">Book a Table</Link>
         </div>
       </div>
       
